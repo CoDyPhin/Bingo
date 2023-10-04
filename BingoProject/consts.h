@@ -5,6 +5,8 @@
 #include <random>
 #include <algorithm>
 #include <numeric>
+#include <ostream>
+#include <iomanip>
 
 using namespace std;
 

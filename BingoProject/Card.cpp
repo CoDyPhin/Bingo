@@ -15,3 +15,21 @@ Card::Card()
 		}
 	}
 }
+
+
+ostream& operator<<(ostream& os, const Card& card) {
+
+	for (auto row : card.numbers) {
+		for (auto number : row) {
+			os << std::setw(2) << number.getValue() << ' ';
+			if (number.isMarked()) {
+				os << "(X) " << std::setw(2) << number.getValue() << ' ';
+			}
+			else {
+				os << "    " << std::setw(2) << number.getValue() << ' ';
+			}
+		}
+		os << '\n';
+	}
+	return os;
+}

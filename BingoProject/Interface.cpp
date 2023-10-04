@@ -1,6 +1,6 @@
 #include "Interface.h"
 
-extern "C" {
+extern "C++" {
 
 	DLL_EXPORT Message generate_cards(Message msg)
 	{
