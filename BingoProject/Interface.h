@@ -1,12 +1,13 @@
 #include <vector>
 #include "Message.h"
 
+#define DLL_EXPORT __declspec(dllexport)
 
-typedef Message (*generateCards(Message msg));
+extern "C" {
+	DLL_EXPORT Message generate_cards(Message msg);
+	DLL_EXPORT Message draw_ball(Message msg);
+	DLL_EXPORT Message check_cards(Message msg);
+}
 
-//typedef Message (*startGame(Message msg));
 
-typedef Message (*drawBall(Message msg));
-
-typedef Message (*checkCard(Message msg));
 

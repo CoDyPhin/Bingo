@@ -5,11 +5,11 @@ class Card
 {
 public:
 	Card();
-	~Card();
-	Number[] getNumbers() { return numbers; };
+	vector<vector<Number>> getNumbers() { return numbers; }
 	void cashOut() { cashed_out = true; }
 	bool isCashedOut() { return cashed_out; }
+	void markNumber(unsigned row, unsigned col) { numbers[row][col].mark(); }
 private:
-	Number numbers[N_ROWS][N_COLS];
+	vector<vector<Number>> numbers;
 	bool cashed_out = false;
 };

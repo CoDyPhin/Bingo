@@ -1,12 +1,18 @@
 #include "Card.h"
 
-struct Message
-{
-	unsigned code;
-	string message;
+#ifdef BingoProject_EXPORTS
+#define DL_EXPOSE __declspec(dllexport)
+#else
+#define DL_EXPOSE __declspec(dllimport)
+#endif
 
-	unsigned short num_cards;
-	unsigned userCredits;
+struct DL_EXPOSE Message
+{
+	unsigned code = NULL;
+	string message = nullptr;
+
+	unsigned short num_cards = NULL;
+	unsigned user_credits = NULL;
 	vector<Card> cards;
-	unordered_set<unsigned> drawnBalls;
+	unordered_set<unsigned> drawn_balls;
 };

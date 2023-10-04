@@ -2,6 +2,7 @@
 
 Card::Card()
 {
+	numbers = vector<vector<Number>>(N_ROWS, vector<Number>(N_COLS));
 	vector<unsigned> range = vector(MAX_BALL_NUM - MIN_BALL_NUM + 1);
 	iota(range.begin(), range.end(), MIN_BALL_NUM);
 	random_device rd;
