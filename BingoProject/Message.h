@@ -1,18 +1,14 @@
+#pragma once
+
 #include "Card.h"
 
-#ifdef BingoProject_EXPORTS
-#define DL_EXPOSE __declspec(dllexport)
-#else
-#define DL_EXPOSE __declspec(dllimport)
-#endif
-
-struct DL_EXPOSE Message
+struct BingoProject_EXPORTS Message
 {
-	unsigned code = NULL;
-	string message = nullptr;
+	unsigned code = 0;
+	string message = "";
 
-	unsigned short num_cards = NULL;
-	unsigned user_credits = NULL;
+	unsigned short num_cards = 0;
+	unsigned user_credits = 0;
 	vector<Card> cards;
 	unordered_set<unsigned> drawn_balls;
 };

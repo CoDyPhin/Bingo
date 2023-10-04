@@ -7,8 +7,13 @@
 #include <numeric>
 #include <ostream>
 #include <iomanip>
+#include <dlfcn.h>
 
 using namespace std;
+
+// DL consts
+
+#define BingoProject_EXPORTS __declspec(dllexport)
 
 // Card consts
 

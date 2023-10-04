@@ -2,7 +2,7 @@
 
 extern "C++" {
 
-	DLL_EXPORT Message generate_cards(Message msg)
+	BingoProject_EXPORTS Message generate_cards(Message msg)
 	{
 		Message response;
 		if (msg.num_cards == NULL) {
@@ -23,7 +23,7 @@ extern "C++" {
 		return response;
 	}
 
-	DLL_EXPORT Message draw_ball(Message msg)
+	BingoProject_EXPORTS Message draw_ball(Message msg)
 	{
 		Message response;
 		response.user_credits = msg.user_credits;
@@ -99,7 +99,7 @@ extern "C++" {
 		return response;
 	}
 
-	DLL_EXPORT Message check_cards(Message msg)
+	BingoProject_EXPORTS Message check_cards(Message msg)
 	{
 		Message response;
 		response.user_credits = msg.user_credits;
