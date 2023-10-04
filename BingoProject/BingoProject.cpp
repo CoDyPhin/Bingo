@@ -1,12 +1,7 @@
-﻿// BingoProject.cpp : Defines the entry point for the application.
-//
-
-#include "BingoProject.h"
-
-using namespace std;
+﻿#include "BingoProject.h"
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	cout << "Compiled" << endl;
 	return 0;
 }

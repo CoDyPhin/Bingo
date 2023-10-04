@@ -17,7 +17,7 @@ Card::Card()
 }
 
 
-ostream& operator<<(ostream& os, const Card& card) {
+/*ostream& operator<<(ostream& os, const Card& card) {
 
 	for (auto row : card.numbers) {
 		for (auto number : row) {
@@ -32,4 +32,4 @@ ostream& operator<<(ostream& os, const Card& card) {
 		os << '\n';
 	}
 	return os;
-}
+}*/

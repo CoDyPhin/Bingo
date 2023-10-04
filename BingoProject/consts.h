@@ -5,15 +5,29 @@
 #include <random>
 #include <algorithm>
 #include <numeric>
-#include <ostream>
+#include <iostream>
 #include <iomanip>
-#include <dlfcn.h>
 
-using namespace std;
 
 // DL consts
 
-#define BingoProject_EXPORTS __declspec(dllexport)
+#ifdef _WIN32 // including 64bit 
+#ifdef BingoProject_EXPORTS
+#define BingoProject_API __declspec(dllexport)
+#else
+#define BingoProject_API __declspec(dllimport)
+#endif
+#elif defined(__GNUC__)
+#ifdef BingoProject_EXPORTS
+#define BingoProject_API __attribute__((visibility("default")))
+#else
+#define BingoProject_API 
+#endif
+#else
+#define BingoProject_API
+#endif
+
+using namespace std;
 
 // Card consts
 

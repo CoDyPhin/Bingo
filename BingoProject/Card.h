@@ -10,7 +10,7 @@ public:
 	void cashOut() { cashed_out = true; }
 	bool isCashedOut() { return cashed_out; }
 	void markNumber(unsigned row, unsigned col) { numbers[row][col].mark(); }
-	ostream& operator<<(ostream& os);
+	//ostream& operator<<(ostream& os);
 
 private:
 	vector<vector<Number>> numbers;

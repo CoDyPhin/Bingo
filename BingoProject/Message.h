@@ -2,10 +2,10 @@
 
 #include "Card.h"
 
-struct BingoProject_EXPORTS Message
+struct BingoProject_API Message
 {
 	unsigned code = 0;
-	string message = "";
+	string message;
 
 	unsigned short num_cards = 0;
 	unsigned user_credits = 0;

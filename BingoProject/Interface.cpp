@@ -2,10 +2,10 @@
 
 extern "C++" {
 
-	BingoProject_EXPORTS Message generate_cards(Message msg)
+	BingoProject_API Message generate_cards(Message msg)
 	{
 		Message response;
-		if (msg.num_cards == NULL) {
+		if (msg.num_cards == 0) {
 			response.code = 400;
 			response.message = "Number of cards not specified.";
 			return response;
@@ -23,7 +23,7 @@ extern "C++" {
 		return response;
 	}
 
-	BingoProject_EXPORTS Message draw_ball(Message msg)
+	BingoProject_API Message draw_ball(Message msg)
 	{
 		Message response;
 		response.user_credits = msg.user_credits;
@@ -69,7 +69,8 @@ extern "C++" {
 		uniform_int_distribution<unsigned> dist(MIN_BALL_NUM, MAX_BALL_NUM);
 		vector<unsigned> availableBalls;
 		for (int i = MIN_BALL_NUM; i <= MAX_BALL_NUM; i++) {
-			if (!msg.drawn_balls.contains(i)) availableBalls.push_back(i);
+			// if (msg.drawn_balls.find(i) != msg.drawn_balls.end()) availableBalls.push_back(i); C++ under 20
+			if (!msg.drawn_balls.contains(i)) availableBalls.push_back(i); // C++20
 		}
 
 		if (availableBalls.empty()) {
@@ -99,7 +100,7 @@ extern "C++" {
 		return response;
 	}
 
-	BingoProject_EXPORTS Message check_cards(Message msg)
+	BingoProject_API Message check_cards(Message msg)
 	{
 		Message response;
 		response.user_credits = msg.user_credits;
