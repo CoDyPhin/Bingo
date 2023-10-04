@@ -6,6 +6,6 @@ project ("BingoProject")
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_library(BingoProject SHARED BingoProject/Interface.cpp)
+add_library(BingoProject SHARED src/Interface.cpp)
 
-target_include_directories(BingoProject PUBLIC ${PROJECT_SOURCE_DIR}/BingoProject)
+target_include_directories(BingoProject PUBLIC ${PROJECT_SOURCE_DIR}/src)
