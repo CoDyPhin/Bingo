@@ -50,29 +50,22 @@ int main()
 		return 1;
 	}
 
-
-	
-
 	Message msg;
 	msg.user_credits = 100;
 	msg.num_cards = 1;
 	msg = generate_cards(msg);
 
 	cout << msg.message << endl;
-	cout << msg.code << endl;
+	//cout << msg.code << endl;
 
 	for (int i = 0; i < N_BALLS; i++)
 	{
 		msg = draw_ball(msg);
 		cout << msg.message << endl;
-		for (auto row: msg.cards.at(0).getNumbers())
+		for (auto row: msg.cards[0].getNumbers())
 		{
 			for (auto num : row)
 			{
-				if(num.isMarked())
-				{
-					cout << "Number " << num.getValue() << " is marked" << endl;
-				}
 				cout << " " << num.getValue() << (num.isMarked() ? "(X) " : "    ") << " ";
 			}
 			cout << endl;
@@ -81,9 +74,9 @@ int main()
 	}
 
 	msg = check_cards(msg);
-	cout << msg.message << endl;
 	cout << msg.code << endl;
-	cout << msg.user_credits << endl;
+	cout << msg.message << endl;
+	cout << "Current credits: " << msg.user_credits << endl;
 
 	dlclose(handle);
 

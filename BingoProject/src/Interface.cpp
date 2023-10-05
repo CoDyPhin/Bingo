@@ -4,62 +4,61 @@ extern "C++" {
 
 	BingoProject_API Message generate_cards(Message msg)
 	{
-		Message response = msg;
-		response.message = "";
+		
+		msg.message = "";
 		if (msg.num_cards == 0) {
-			response.code = 400;
-			response.message = "Number of cards not specified.";
-			return response;
+			msg.code = 400;
+			msg.message = "Number of cards not specified.";
+			return msg;
 		}
-		response.code = 200;
+		msg.code = 200;
 		if (msg.num_cards > MAX_CARDS) {
-			response.cards = std::vector(MAX_CARDS, Card());
-			response.message = "Generated maximum number of cards.";
-			return response;
+			msg.cards = std::vector(MAX_CARDS, Card());
+			msg.message = "Generated maximum number of cards.";
+			return msg;
 		}
 		else {
-			response.cards = std::vector(msg.num_cards, Card());
-			response.message = "Cards generated.";
+			msg.cards = std::vector(msg.num_cards, Card());
+			msg.message = "Cards generated.";
 		}
-		return response;
+		return msg;
 	}
 
 	BingoProject_API Message draw_ball(Message msg)
 	{
-		Message response = msg;
-		response.message = "";
+		msg.message = "";
 		if (msg.cards.empty()) {
-			response.code = 400;
-			response.message = "No cards in play.";
-			return response;
+			msg.code = 400;
+			msg.message = "No cards in play.";
+			return msg;
 		}
 		// check if the game is starting to withdraw the credits from the user
 		if (msg.drawn_balls.empty()) {
 			if (msg.user_credits < msg.cards.size() * PRICE_PER_CARD) {
-				response.code = 400;
-				response.message = "Not enough credits to buy that amount of cards.";
-				return response;
+				msg.code = 400;
+				msg.message = "Not enough credits to buy that amount of cards.";
+				return msg;
 			}
 			else {
-				response.user_credits = msg.user_credits - msg.cards.size() * PRICE_PER_CARD;
+				msg.user_credits = msg.user_credits - msg.cards.size() * PRICE_PER_CARD;
 			}
 		}
 		else if (msg.drawn_balls.size() >= N_BALLS) { // drawing extra balls
 			unsigned extraBalls = msg.drawn_balls.size() + 1 - N_BALLS;
 			if (extraBalls > N_MAX_EXTRABALLS) {
-				response.code = 400;
-				response.message = "Maximum number of extra balls reached.";
-				return response;
+				msg.code = 400;
+				msg.message = "Maximum number of extra balls reached.";
+				return msg;
 			}
 			else {
 				unsigned price = extraBalls * PRICE_INCREASE_PER_EXTRABALL;
 				if (msg.user_credits < price) {
-					response.code = 400;
-					response.message = "Not enough credits to buy an extra ball.";
-					return response;
+					msg.code = 400;
+					msg.message = "Not enough credits to buy an extra ball.";
+					return msg;
 				}
 				else {
-					response.user_credits = msg.user_credits - price;
+					msg.user_credits = msg.user_credits - price;
 				}
 			}
 		}
@@ -74,10 +73,10 @@ extern "C++" {
 		}
 
 		if (availableBalls.empty()) {
-			response.code = 400;
-			response.message = "No more balls to draw.";
-			response.user_credits = msg.user_credits;
-			return response;
+			msg.code = 400;
+			msg.message = "No more balls to draw.";
+			msg.user_credits = msg.user_credits;
+			return msg;
 		}
 
 		std::uniform_int_distribution<unsigned> dist2(0, availableBalls.size() - 1);
@@ -93,27 +92,26 @@ extern "C++" {
 			}
 		}
 		msg.drawn_balls.insert(drawnBall);
-		response.message = "Ball number " + std::to_string(drawnBall) + " was drawn.";
-		response.drawn_balls = msg.drawn_balls;
-		response.code = 200;
+		msg.message = "Ball number " + std::to_string(drawnBall) + " was drawn.";
+		msg.drawn_balls = msg.drawn_balls;
+		msg.code = 200;
 
 
-		return response;
+		return msg;
 	}
 
 	BingoProject_API Message check_cards(Message msg)
 	{
-		Message response = msg;
-		response.message = "";
+		msg.message = "";
 		if (msg.cards.empty()) {
-			response.code = 400;
-			response.message = "No cards in play.";
-			return response;
+			msg.code = 400;
+			msg.message = "No cards in play.";
+			return msg;
 		}
 		if (msg.drawn_balls.size() != N_BALLS) {
-			response.code = 400;
-			response.message = "Not all balls were drawn.";
-			return response;
+			msg.code = 400;
+			msg.message = "Not all balls were drawn.";
+			return msg;
 		}
 		for (unsigned i = 0; i < msg.cards.size(); i++) {
 			if (msg.cards[i].isCashedOut()) continue;
@@ -139,17 +137,17 @@ extern "C++" {
 				}
 			}
 			if (pattern1) {
-				response.user_credits += PAYOUT_1;
+				msg.user_credits += PAYOUT_1;
 				msg.cards[i].cashOut();
 			}
 			if (pattern2) {
-				response.user_credits += PAYOUT_2;
+				msg.user_credits += PAYOUT_2;
 				msg.cards[i].cashOut();
 			}
 
 		}
-		response.message = "You lost.";
-		response.code = 200;
-		return response;
+		msg.message = "You lost.";
+		msg.code = 200;
+		return msg;
 	}
 }
