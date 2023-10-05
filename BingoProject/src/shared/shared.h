@@ -10,17 +10,18 @@
 #define N_BALLS 30
 #define N_MAX_EXTRABALLS 0
 
-// Number Structure
+// Number class declarations
 
-struct Number
+class Number
 {
-	Number() { value = 0; }
-	Number(unsigned v) { value = v; }
-	bool marked = false;
-	unsigned value;
-	unsigned getValue() const { return value; }
-	bool isMarked() const { return marked; }
-	void mark() { marked = true; }
+public:
+	Number(unsigned v);
+	unsigned getValue() const;
+	bool isMarked() const;
+	void mark();
+private:
+	unsigned const value;
+	bool marked;
 };
 
 
@@ -30,10 +31,11 @@ class Card
 {
 public:
 	Card();
-	std::vector<std::vector<Number>> getNumbers();
+	std::vector<std::vector<Number>> getNumbers() const;
 	void cashOut();
-	bool isCashedOut();
+	bool isCashedOut() const;
 	void markNumber(unsigned row, unsigned col);
+	friend std::ostream& operator<<(std::ostream& os, const Card& c);
 private:
 	std::vector<std::vector<Number>> numbers;
 	bool cashed_out = false;
