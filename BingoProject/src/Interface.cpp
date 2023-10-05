@@ -4,7 +4,8 @@ extern "C++" {
 
 	BingoProject_API Message generate_cards(Message msg)
 	{
-		Message response;
+		Message response = msg;
+		response.message = "";
 		if (msg.num_cards == 0) {
 			response.code = 400;
 			response.message = "Number of cards not specified.";
@@ -25,9 +26,8 @@ extern "C++" {
 
 	BingoProject_API Message draw_ball(Message msg)
 	{
-		Message response;
-		response.user_credits = msg.user_credits;
-
+		Message response = msg;
+		response.message = "";
 		if (msg.cards.empty()) {
 			response.code = 400;
 			response.message = "No cards in play.";
@@ -93,6 +93,7 @@ extern "C++" {
 			}
 		}
 		msg.drawn_balls.insert(drawnBall);
+		response.message = "Ball number " + std::to_string(drawnBall) + " was drawn.";
 		response.drawn_balls = msg.drawn_balls;
 		response.code = 200;
 
@@ -102,8 +103,8 @@ extern "C++" {
 
 	BingoProject_API Message check_cards(Message msg)
 	{
-		Message response;
-		response.user_credits = msg.user_credits;
+		Message response = msg;
+		response.message = "";
 		if (msg.cards.empty()) {
 			response.code = 400;
 			response.message = "No cards in play.";

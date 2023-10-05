@@ -4,7 +4,7 @@
 Card::Card()
 {
 	numbers = std::vector<std::vector<Number>>(N_ROWS, std::vector<Number>(N_COLS));
-	std::vector<unsigned> range = std::vector(MAX_BALL_NUM - MIN_BALL_NUM + 1);
+	std::vector<unsigned> range(MAX_BALL_NUM - MIN_BALL_NUM + 1);
 	std::iota(range.begin(), range.end(), MIN_BALL_NUM);
 	std::random_device rd;
 	std::mt19937 g(rd());

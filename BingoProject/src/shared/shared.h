@@ -14,10 +14,11 @@
 
 struct Number
 {
-	Number(int v) : value(v) {}
+	Number() { value = 0; }
+	Number(unsigned v) { value = v; }
 	bool marked = false;
-	int value;
-	int getValue() const { return value; }
+	unsigned value;
+	unsigned getValue() const { return value; }
 	bool isMarked() const { return marked; }
 	void mark() { marked = true; }
 };
@@ -43,9 +44,9 @@ private:
 
 struct Message
 {
-	int code = 0;
-	int user_credits = 0;
-	int num_cards = 0;
+	unsigned code = 0;
+	unsigned user_credits = 0;
+	unsigned num_cards = 0;
 	std::string message;
 	std::vector<Card> cards;
 	std::unordered_set<unsigned> drawn_balls;
