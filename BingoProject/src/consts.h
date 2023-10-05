@@ -1,12 +1,10 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <unordered_set>
 #include <random>
 #include <algorithm>
 #include <numeric>
 #include <iostream>
 #include <iomanip>
+#include "shared.h"
 
 
 // DL consts
@@ -26,8 +24,6 @@
 #else
 #define BingoProject_API
 #endif
-
-using namespace std;
 
 // Card consts
 

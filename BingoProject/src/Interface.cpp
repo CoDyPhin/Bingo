@@ -12,12 +12,12 @@ extern "C++" {
 		}
 		response.code = 200;
 		if (msg.num_cards > MAX_CARDS) {
-			response.cards = vector<Card>(MAX_CARDS, Card());
+			response.cards = std::vector(MAX_CARDS, Card());
 			response.message = "Generated maximum number of cards.";
 			return response;
 		}
 		else {
-			response.cards = vector<Card>(msg.num_cards, Card());
+			response.cards = std::vector(msg.num_cards, Card());
 			response.message = "Cards generated.";
 		}
 		return response;
@@ -64,10 +64,10 @@ extern "C++" {
 			}
 		}
 		// draw a ball
-		random_device rd;
-		mt19937 g(rd());
-		uniform_int_distribution<unsigned> dist(MIN_BALL_NUM, MAX_BALL_NUM);
-		vector<unsigned> availableBalls;
+		std::random_device rd;
+		std::mt19937 g(rd());
+		std::uniform_int_distribution<unsigned> dist(MIN_BALL_NUM, MAX_BALL_NUM);
+		std::vector<unsigned> availableBalls;
 		for (int i = MIN_BALL_NUM; i <= MAX_BALL_NUM; i++) {
 			// if (msg.drawn_balls.find(i) != msg.drawn_balls.end()) availableBalls.push_back(i); C++ under 20
 			if (!msg.drawn_balls.contains(i)) availableBalls.push_back(i); // C++20
@@ -80,7 +80,7 @@ extern "C++" {
 			return response;
 		}
 
-		uniform_int_distribution<unsigned> dist2(0, availableBalls.size() - 1);
+		std::uniform_int_distribution<unsigned> dist2(0, availableBalls.size() - 1);
 		unsigned drawnBall = availableBalls[dist2(g)];
 
 		for (unsigned i = 0; i < msg.cards.size(); i++) {

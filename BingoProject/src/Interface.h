@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Message.h"
+#include "consts.h"
 
 extern "C++" {
 	BingoProject_API Message generate_cards(Message msg);
