@@ -4,7 +4,7 @@
 #include <numeric>
 #include <iostream>
 #include <iomanip>
-#include "shared.h"
+#include "./shared/shared.h"
 
 
 // DL consts

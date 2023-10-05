@@ -30,9 +30,9 @@ class Card
 public:
 	Card();
 	std::vector<std::vector<Number>> getNumbers();
-	void cashOut() { cashed_out = true; }
-	bool isCashedOut() { return cashed_out; }
-	void markNumber(unsigned row, unsigned col) { numbers[row][col].mark(); }
+	void cashOut();
+	bool isCashedOut();
+	void markNumber(unsigned row, unsigned col);
 private:
 	std::vector<std::vector<Number>> numbers;
 	bool cashed_out = false;
