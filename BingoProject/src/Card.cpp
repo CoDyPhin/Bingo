@@ -7,14 +7,6 @@ Number::Number(unsigned const v) : value(v)
 	marked = false;
 }
 
-/*Number::Number() : value(0), marked(false)
-{
-}
-
-Number::Number(const Number& n) : value(n.value), marked(n.marked)
-{
-}*/
-
 unsigned Number::getValue() const
 {
 	return value;
@@ -35,7 +27,7 @@ void Number::mark()
 
 Card::Card()
 {
-	//numbers = std::vector(N_ROWS, std::vector<Number>(N_COLS));
+	cashed_out.resize(N_PATTERNS);
 	std::vector<unsigned> range(MAX_BALL_NUM - MIN_BALL_NUM + 1);
 	std::iota(range.begin(), range.end(), MIN_BALL_NUM);
 	std::random_device rd;
@@ -56,12 +48,19 @@ std::vector<std::vector<Number>> Card::getNumbers() const
 	return numbers;
 }
 
-void Card::cashOut() {
-	cashed_out = true;
+void Card::cashOut(unsigned pattern)
+{
+	cashed_out[pattern-1] = true;
 }
 
-bool Card::isCashedOut() const {
-	return cashed_out;
+bool Card::isCashedOut(unsigned pattern) const
+{
+	return cashed_out[pattern-1];
+}
+
+bool Card::isCashedOut() const
+{
+	return std::all_of(cashed_out.begin(), cashed_out.end(), [](bool const b) {return b; });
 }
 
 void Card::markNumber(unsigned const row, unsigned const col) {

@@ -36,11 +36,13 @@
 
 #define MAX_CARDS 1
 #define N_BALLS 30
-#define N_MAX_EXTRABALLS 0
+#define N_MAX_EXTRABALLS 10
 #define PRICE_PER_CARD 1
 #define PRICE_INCREASE_PER_EXTRABALL 1
 
 // Patterns (X are marked numbers, NUM are non marked numbers)
+
+#define N_PATTERNS 2
 
 // Pattern 1
 // [[X,			X,		X,		X,		X],
