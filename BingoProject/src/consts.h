@@ -7,13 +7,11 @@
 #include "./shared/shared.h"
 
 
-// DL consts
+// DL macros
 
 #ifdef _WIN32 // including 64bit 
 #ifdef BingoProject_EXPORTS
 #define BingoProject_API __declspec(dllexport)
-#else
-#define BingoProject_API __declspec(dllimport)
 #endif
 #elif defined(__GNUC__)
 #ifdef BingoProject_EXPORTS
@@ -21,38 +19,41 @@
 #else
 #define BingoProject_API 
 #endif
-#else
-#define BingoProject_API
 #endif
+
+#define MacroConst inline constexpr unsigned
 
 // Card consts
 
-#define MAX_BALL_NUM 60
-#define MIN_BALL_NUM 1
-#define N_ROWS 3
-#define N_COLS 5
+MacroConst MAX_BALL_NUM = 60;
+MacroConst MIN_BALL_NUM = 1;
+MacroConst N_ROWS = 3;
+MacroConst N_COLS = 5;
 
 // Game consts
 
+MacroConst N_MAX_EXTRABALLS = 10;
+MacroConst PRICE_PER_CARD = 1;
+MacroConst PRICE_INCREASE_PER_EXTRABALL = 1;
+
+// Shared game macros
+
 #define MAX_CARDS 1
 #define N_BALLS 30
-#define N_MAX_EXTRABALLS 10
-#define PRICE_PER_CARD 1
-#define PRICE_INCREASE_PER_EXTRABALL 1
 
 // Patterns (X are marked numbers, NUM are non marked numbers)
 
-#define N_PATTERNS 2
+MacroConst N_PATTERNS = 2;
 
 // Pattern 1
 // [[X,			X,		X,		X,		X],
 //  [NUM,		X,		X,		X,		NUM],
 //  [NUM,		NUM,	X,		NUM,	NUM]]
-#define PAYOUT_1 10
+MacroConst PAYOUT_1 = 10;
 
 
 // Pattern 2
 // [[X,		X,		X,		X,		X],
 //  [NUM,	NUM,	X,		NUM,	NUM],
 //  [X,		X,		X,		X,		X]]
-#define PAYOUT_2 50
+MacroConst PAYOUT_2 = 50;

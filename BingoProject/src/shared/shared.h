@@ -49,6 +49,7 @@ struct Message
 	unsigned code = 0;
 	unsigned user_credits = 0;
 	unsigned num_cards = 0;
+	unsigned price = 0;
 	std::string message;
 	std::vector<Card> cards;
 	std::unordered_set<unsigned> drawn_balls;

@@ -122,7 +122,10 @@ int main()
 			}
 			case ST_START_GAME:
 			{
-				input = prompt_user(0, 2, "Start game? \n[0] Exit\n[1] Yes\n[2] Re-generate cards");
+				string prompt = "Start game?\n[0] Exit\n[1] Yes";
+				if(msg.price > 0) prompt += std::string(" (Price: ").append(to_string(msg.price)).append(")");
+				prompt += "\n[2] Re-generate cards";
+				input = prompt_user(0, 2, prompt);
 				if(input == 0)
 				{
 					state = ST_EXIT;
@@ -177,7 +180,10 @@ int main()
 			}
 			case ST_END_GAME:
 			{
-				input = prompt_user(0, 2, "[0] Exit\n[1] Play Again\n[2] Buy Extra Ball");
+				string priceStr = "";
+				if (msg.price > 0) priceStr = " (Price: " + to_string(msg.price) + ")";
+				else priceStr = " (Max Number Reached)";
+				input = prompt_user(0, 2, std::string("[0] Exit\n[1] Play Again\n[2] Buy Extra Ball").append(priceStr));
 				if(input == 0)
 				{
 					state = ST_EXIT;
