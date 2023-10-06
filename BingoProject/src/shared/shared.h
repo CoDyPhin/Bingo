@@ -6,7 +6,7 @@
 
 // Game consts
 
-#define MAX_CARDS 1 // Maximum number of cards a user can buy in each game
+#define MAX_CARDS 10 // Maximum number of cards a user can buy in each game
 #define N_BALLS 30 // Number of balls drawn in each game
 
 // Number class declarations

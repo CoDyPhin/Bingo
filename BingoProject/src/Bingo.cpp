@@ -36,14 +36,17 @@ extern "C++" {
 		// Check if the number of cards is greater than the maximum allowed
 		if (msg.num_cards > MAX_CARDS) {
 			// If it is, generate the maximum number of cards allowed instead
-			msg.cards = std::vector(MAX_CARDS, Card());
+			for (size_t i = 0; i < MAX_CARDS; i++) {
+				msg.cards.emplace_back(Card());
+			}
 			msg.num_cards = MAX_CARDS;
 			msg.message = "Generated maximum number of cards '" + std::to_string(MAX_CARDS) + "'.";
-			return msg;
 		}
 		else {
 			// Generate the specified number of cards
-			msg.cards = std::vector(msg.num_cards, Card());
+			for (size_t i = 0; i < msg.num_cards; i++) {
+				msg.cards.emplace_back(Card());
+			}
 			msg.message = "Generated '" + std::to_string(msg.num_cards) + "' card(s).";
 		}
 		// Calculate the price to play the generated cards
