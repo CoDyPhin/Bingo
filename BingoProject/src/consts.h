@@ -7,7 +7,7 @@
 #include "./shared/shared.h"
 
 
-// DL macros
+// Library macros
 
 #ifdef _WIN32 // including 64bit 
 #ifdef BingoProject_EXPORTS
@@ -41,7 +41,7 @@ MacroConst PRICE_INCREASE_PER_EXTRABALL = 1;
 #define MAX_CARDS 1
 #define N_BALLS 30
 
-// Patterns (X are marked numbers, NUM are non marked numbers)
+// Pattern consts (X are marked numbers, NUM are non marked numbers)
 
 MacroConst N_PATTERNS = 2;
 

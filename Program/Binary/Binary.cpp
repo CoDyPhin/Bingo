@@ -5,25 +5,29 @@
 #include "shared.h"
 #include "dlfcn.h"
 
+// Game Loop State machine states
 enum state
 {
-	ST_EXIT,
-	ST_GEN_CARDS,
-	ST_START_GAME,
-	ST_DRAW_BALL,
-	ST_CHECK_CARDS,
-	ST_END_GAME
+	ST_EXIT, // Exit the game
+	ST_GEN_CARDS, // Prompt the user for the number of cards to generate
+	ST_START_GAME, // Prompt the user to start the game or re-generate cards
+	ST_DRAW_BALL, // Draw a ball
+	ST_CHECK_CARDS, // Check the cards for a win
+	ST_END_GAME // Prompt the user to exit, play again or buy an extra ball
 };
 
 
 using namespace std;
 
+
+// Load the user's credits
+// In the future, this function should be replaced with a call to the server
 unsigned load_user_credits()
 {
-	// Load credits from where they are stored
 	return 10000;
 }
 
+// An auxiliary function to check for dlerrors (linking errors) and print them to the console
 bool check_dl_error()
 {
 	const char* dlsym_error = dlerror();
@@ -35,7 +39,11 @@ bool check_dl_error()
 	return false;
 }
 
-
+// Auxiliary function to prompt the user for input
+// @param min_input: The minimum input value
+// @param max_input: The maximum input value
+// @param prompt: The prompt to display to the user
+// @return: The user's sanitized input
 unsigned prompt_user(unsigned const min_input, unsigned const max_input, std::string const& prompt)
 {
 	unsigned input;
@@ -56,8 +64,10 @@ unsigned prompt_user(unsigned const min_input, unsigned const max_input, std::st
 	return input;
 }
 
+// The Game's main function
 int main()
 {
+	// Start by loading the Bingo library
 	void* handle = dlopen("libBingoProject.so", RTLD_LAZY);
 	if (!handle)
 	{
@@ -69,32 +79,65 @@ int main()
 	using draw_ball_t = Message(*)(Message);
 	using check_cards_t = Message(*)(Message);
 
+	// Load the generate_cards method
 	auto const generate_cards = reinterpret_cast<generate_cards_t>(dlsym(handle, "_Z14generate_cards7Message"));
 	if (check_dl_error()) {
 		dlclose(handle);
 		return 1;
 	}
 
+	// Load the draw_ball method
 	auto const draw_ball = reinterpret_cast<draw_ball_t>(dlsym(handle, "_Z9draw_ball7Message"));
 	if (check_dl_error()){
 		dlclose(handle);
 		return 1;
 	}
 
+	// Load the check_cards method
 	auto const check_cards = reinterpret_cast<check_cards_t>(dlsym(handle, "_Z11check_cards7Message"));
 	if (check_dl_error()) {
 		dlclose(handle);
 		return 1;
 	}
 
+
+	// Start the game
 	unsigned credits = load_user_credits();
 	unsigned state = 1;
 	unsigned input;
 	cout << "Welcome to Bingo!" << endl;
 	Message msg;
+
+	// The game's main loop
 	while (true)
 	{
-		switch (state)
+		switch (state) // State Machine
+
+		//	Any State ==================|===============================================|
+		//								|												|	
+		//				(On Error Code)	|  												|
+		//								v     	     (Input 0)							|
+		//	Entry ================> ST_GEN_CARDS =================> ST_EXIT => Exit		|
+		//							    | ^								^				|
+		//				  (Input N > 0) | |	(Input 2)					|				|
+		//								v |								| (Input 0)		|
+		//							  ST_START_GAME ====================|				|
+		//								|								|				|
+		//					|=======|	| (Input 1)						|				| (Input 1)
+		//					|		v	v								|				|
+		//					|====== ST_DRAW_BALL <======|				|				| 
+		//								| ^				|				|				| 
+		//		  (DrawnBalls>=N_BALLS) | |	(Code 202)	|				| (Input 0)		|	
+		//								v |				| (Input 2)		|				|
+		//							ST_CHECK_CARDS		|				|				|
+		//								|				|				|				|
+		//								|				|				|				|
+		//								v				|				|				|
+		//							ST_END_GAME ========|===============|				|
+		//								|												|
+		//								|												|
+		//								|===============================================|
+
 		{
 			case ST_EXIT:
 			{
@@ -123,6 +166,7 @@ int main()
 			case ST_START_GAME:
 			{
 				string prompt = "Start game?\n[0] Exit\n[1] Yes";
+				// If there is a price, add it to the prompt
 				if(msg.price > 0) prompt += std::string(" (Price: ").append(to_string(msg.price)).append(")");
 				prompt += "\n[2] Re-generate cards";
 				input = prompt_user(0, 2, prompt);
@@ -167,10 +211,13 @@ int main()
 			{
 				msg = check_cards(msg);
 				cout << msg.message << endl;
+				if (msg.code == 202) { // For some reason, the number of balls to draw is not the same as the server's
+					state = ST_DRAW_BALL; 
+					continue;
+				}
 				if(msg.code > 299 || msg.code < 200)
 				{
-					if (msg.code == 406) state = ST_DRAW_BALL; // For some reason, the number of balls to draw is not the same as the server's
-					else state = ST_GEN_CARDS;
+					state = ST_GEN_CARDS;
 					continue;
 				}
 				cout << "Current credits: " << msg.user_credits << endl;
@@ -180,8 +227,9 @@ int main()
 			}
 			case ST_END_GAME:
 			{
-				string priceStr = "";
-				if (msg.price > 0) priceStr = " (Price: " + to_string(msg.price) + ")";
+				string priceStr;
+				// Add the price of the extra ball to the prompt, or if the max number has been reached
+				if (msg.price > 0) priceStr = std::string(" (Price: ").append(to_string(msg.price)).append(")");
 				else priceStr = " (Max Number Reached)";
 				input = prompt_user(0, 2, std::string("[0] Exit\n[1] Play Again\n[2] Buy Extra Ball").append(priceStr));
 				if(input == 0)
